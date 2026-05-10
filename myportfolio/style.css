@@ -1,0 +1,805 @@
+/* 全局设置 */
+:root {
+    --primary-color: #FF9800; /* 活力橙 */
+    --secondary-color: #FFC107; /* 明亮黄 */
+    --light-yellow: #FFF9E6;
+    --text-dark: #333333;
+    --text-gray: #666666;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+}
+
+body {
+    background-color: #FFFFFF;
+    color: var(--text-dark);
+}
+
+.section {
+    min-height: 100vh;
+    padding: 80px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+.section-subtitle {
+    color: var(--text-gray);
+    margin-bottom: 50px;
+}
+.light-bg {
+    /* 使用你定义的变量 */
+    background-color: var(--light-yellow); 
+    /* 核心：确保没有边框，且溢出的光影被隐藏 */
+    border: none;
+    outline: none;
+    overflow: hidden; 
+    position: relative;
+}
+
+/* ================= 板块一：个人介绍 ================= */
+#intro {
+    justify-content: center;
+}
+.bg-blur {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    /* 请在这里替换你的模糊背景图片 */
+    background: url('bg.jpg') center/cover no-repeat;
+    filter: blur(10px);
+    z-index: -1;
+    opacity: 0.4;
+}
+
+.intro-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 900px;
+    transition: all 0.8s ease;
+}
+
+.photo-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.8s ease;
+    animation: float 3s ease-in-out infinite;
+}
+
+.profile-photo {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 10px 30px rgba(255, 152, 0, 0.4);
+    border: 5px solid white;
+}
+
+.greeting {
+    margin-top: 20px;
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    font-weight: bold;
+    transition: opacity 0.3s;
+}
+
+/* 悬浮动画 */
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0); }
+}
+
+/* 点击后的排版状态 */
+.intro-content.active {
+    justify-content: space-between;
+}
+.intro-content.active .photo-wrapper {
+    animation: none; /* 停止悬浮 */
+    transform: translateX(-50px);
+}
+.intro-content.active .greeting {
+    opacity: 0;
+}
+
+.details-wrapper {
+    display: flex;
+    flex-direction: column; /* 让文字和按钮变成上下排队，而不是左右并排 */
+    align-items: flex-start; /* 靠左对齐 */
+    gap: 30px; /* 文字块和按钮块之间的上下距离 */
+    opacity: 0;
+    transform: translateX(30px);
+    transition: all 0.8s ease;
+    margin-left: 50px; /* 这个数字控制整个右侧板块离头像的距离，觉得太远就调小 */
+}
+
+.details-wrapper.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.info {
+    margin-bottom: 0; /* 清除不必要的边距 */
+}
+
+.info h1 {
+    font-size: 2.8rem;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.info p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: var(--text-dark);
+}
+
+/* 兴趣按钮块：改为横向排列 */
+.hobbies {
+    display: flex;
+    flex-direction: row; /* 让四个按钮横着排成一排 */
+    flex-wrap: wrap;    /* 如果屏幕太窄，按钮自动换行 */
+    gap: 15px;          /* 按钮之间的间距 */
+}
+
+.hobby-btn {
+    padding: 8px 20px;
+    background: white;
+    border: 1.5px solid var(--primary-color);
+    color: var(--primary-color);
+    border-radius: 20px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.hobby-btn:hover {
+    background: var(--primary-color);
+    color: white;
+    box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
+}
+.hidden {
+    display: none !important;
+}
+
+/* ================= 板块二：时间线 ================= */
+.timeline-container {
+    position: relative;
+    width: 80%;
+    max-width: 800px;
+    margin-top: 60px;
+    height: 200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.timeline-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: var(--secondary-color);
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.time-point {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.time-point .dot {
+    width: 20px;
+    height: 20px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    border: 4px solid white;
+    transition: all 0.3s;
+    box-shadow: 0 0 0 0 rgba(255, 152, 0, 0);
+}
+
+.time-point:hover .dot {
+    transform: scale(1.5);
+    background-color: var(--secondary-color);
+    box-shadow: 0 0 15px 5px rgba(255, 193, 7, 0.5);
+}
+
+.time-point .date {
+    position: absolute;
+    font-weight: bold;
+    color: var(--text-dark);
+    white-space: nowrap;
+}
+
+.time-point.top .date { top: -40px; }
+.time-point.bottom .date { bottom: -40px; }
+
+/* 弹窗样式 */
+.modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    width: 80%;
+    max-width: 700px;
+    position: relative;
+    animation: popIn 0.3s ease;
+}
+.close-btn {
+    position: absolute;
+    top: 15px; right: 20px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-gray);
+}
+.modal-body {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+.modal-body img {
+    width: 50%;
+    border-radius: 10px;
+    object-fit: cover;
+}
+.modal-body p {
+    width: 50%;
+    line-height: 1.6;
+}
+
+@keyframes popIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* ================= 板块三 & 四：作品展示 ================= */
+.works-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+    max-width: 900px;
+}
+
+.work-card {
+    display: flex;
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    border: 1px solid #f0f0f0;
+}
+
+.work-card:hover {
+    transform: translateY(-5px);
+    /* 悬浮发光效果 */
+    box-shadow: 0 15px 30px rgba(255, 152, 0, 0.2); 
+}
+
+.work-card:hover .work-img img {
+    transform: scale(1.05);
+}
+
+.work-img {
+    width: 40%;
+    overflow: hidden;
+}
+
+.work-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.work-info {
+    width: 60%;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.work-info h3 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.work-info p {
+    color: var(--text-gray);
+    line-height: 1.6;
+}
+
+.hobby-close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-gray);
+}
+
+/* 弹窗加宽以容纳图片 */
+.hobby-modal-wide {
+    max-width: 850px !important;
+}
+
+.hobby-gallery {
+    width: 250px;
+    height: 400px;
+    overflow: hidden; /* 隐藏超出部分 */
+    position: relative;
+    border-radius: 10px;
+    background: #f9f9f9;
+}
+
+/* 滚动的轨道 */
+.gallery-track {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    animation: scrollVertical 20s linear infinite;
+}
+
+.gallery-track img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* 无限滚动动画 */
+@keyframes scrollVertical {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-50%); } /* 滚动到一半时无缝衔接 */
+}
+
+.hobby-info {
+    flex: 1;
+    padding-left: 20px;
+}
+
+/* ============================================================
+   兴趣爱好弹窗：完整终极版（边框+对齐+颜色+不裁剪图片）
+   ============================================================ */
+
+/* 1. 基础容器布局：确保图左字右，拉开间距 */
+#hobby-modal .modal-body {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    padding: 40px 60px;
+    gap: 60px; /* 图片和文字中间的真空地带 */
+}
+
+/* 2. 文字容器核心对齐：这是解决你对不齐的关键 */
+.hobby-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;    /* 强制内部所有元素靠右墙对齐 */
+    text-align: right;        /* 强制多行文字向右对齐 */
+    flex: 1;
+    min-width: 250px;
+}
+
+/* 标题和描述的基础样式 */
+#hobby-title {
+    font-size: 2rem;
+    margin: 0 0 15px 0;
+    font-weight: bold;
+}
+
+#hobby-desc {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    max-width: 320px;         /* 限制宽度，防止文字太长又跑回中间去 */
+    margin: 0;
+}
+
+/* --- 3：图片原始比例显示 --- */
+#gallery-track img, 
+#timeline-gallery-track img {
+    width: auto !important;     /* 宽度自动 */
+    height: 180px !important;   /* 固定高度，保证滚动条整齐 */
+    object-fit: contain !important; /* 关键：不裁剪，显示原图全部内容 */
+    background: rgba(0,0,0,0.1); /* 给图片后面加一点淡淡的底色，防止白边难看 */
+    border-radius: 4px;
+}
+
+/* 4. 四大皮肤边框与特效 */
+
+/* --- 摄影皮肤 --- */
+.skin-photography .modal-content {
+    background: #111 !important;
+    border: 2px solid #444;
+    box-shadow: 0 0 0 10px #000;
+}
+.skin-photography #hobby-title, 
+.skin-photography #hobby-desc {
+    color: #ffffff !important; /* 纯白，保证清晰 */
+}
+.skin-photography #hobby-title::before {
+    content: "● REC";
+    display: block;            /* 独立一行，不挤占标题 */
+    color: #ff4d4d;
+    font-size: 14px;
+    margin-bottom: 8px;
+    animation: blink 1s infinite;
+}
+
+/* --- 写作皮肤 --- */
+.skin-writing .modal-content {
+    background: #fdfcf0 !important; /* 复古纸张 */
+    border-left: 45px solid #5d4037 !important; /* 棕色书脊 */
+    border-radius: 5px 15px 15px 5px;
+}
+.skin-writing #hobby-title, 
+.skin-writing #hobby-desc {
+    color: #2c1e1a !important; /* 深墨水色 */
+}
+
+/* --- 观影皮肤 --- */
+.skin-movie .modal-content {
+    background: #000 !important;
+    border: 15px solid #222;
+    border-bottom: 40px solid #222; /* 电影院银幕感 */
+}
+.skin-movie #hobby-title, 
+.skin-movie #hobby-desc {
+    color: #ffffff !important;
+    text-shadow: 0 0 10px rgba(255,255,255,0.2);
+}
+
+/* --- 音乐皮肤 --- */
+.skin-music .modal-content {
+    background: linear-gradient(145deg, #121212, #222) !important;
+    border: 4px double var(--primary-color, #ffd700);
+}
+.skin-music #hobby-title, 
+.skin-music #hobby-desc {
+    color: #ffffff !important;
+}
+/* 跳动的音符 */
+.skin-music .modal-content::after {
+    content: "♪ ♫ ♩";
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    font-size: 24px;
+    color: var(--primary-color, #ffd700);
+    animation: musicFloat 2s infinite ease-in-out;
+}
+
+/* 5. 动画效果定义 */
+@keyframes blink { 
+    0%, 100% { opacity: 1; } 
+    50% { opacity: 0.3; } 
+}
+@keyframes musicFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* 适配移动端（防止手机上错位） */
+@media (max-width: 768px) {
+    #hobby-modal .modal-body {
+        flex-direction: column;
+        text-align: center;
+    }
+    .hobby-info {
+        align-items: center;
+        text-align: center;
+        padding-right: 0;
+    }
+}
+
+/* 1. 让时间线这一块变成透明，否则白底会挡住画 */
+#timeline {
+    position: relative;
+    background: transparent !important; /* 强制透明 */
+    overflow: hidden;
+    min-height: 100vh;
+}
+
+/* 2. 让画纸铺满整个背景 */
+#season-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;      /* 放在文字的后面 */
+    pointer-events: none; /* 鼠标点不到它，不影响你点别的东西 */
+    transition: background-color 3s ease;
+}
+
+/* --- 笨蛋提示：新增一个点击时的风向光影，让风看起来“无形” --- */
+body.wind-blowing::after {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.05) 50%, transparent 100%);
+    pointer-events: none;
+    animation: windFlash 1s ease-out;
+    z-index: 100;
+}
+@keyframes windFlash { 0% { opacity: 1; transform: translateX(-100%); } 100% { opacity: 0; transform: translateX(100%); } }
+
+/* 让跟随鼠标的文字框更好看 */
+#image-info-tooltip {
+    border-left: 3px solid #77b077; /* 左边加一条绿色竖线，呼应你的树 */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3); /* 加深阴影，更有立体感 */
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+    letter-spacing: 1px; /* 字间距宽一点，显得高级 */
+    max-width: 220px; /* 限制宽度，防止文字太长变成一条线 */
+    line-height: 1.5; /* 行高，阅读更舒适 */
+}
+
+/* ================= 板块三：图文作品 (恢复卡片布局) ================= */
+#works-fruit-container {
+    display: flex;
+    flex-direction: column; /* 垂直排列卡片 */
+    gap: 30px;              /* 卡片之间的间距 */
+    width: 100%;
+    max-width: 900px;       /* 限制最大宽度，居中好看 */
+    margin: 40px auto;      /* 自动居中 */
+    padding: 0 20px;
+    z-index: 10;            /* 确保在四季背景之上 */
+    position: relative;
+}
+
+/* 单个卡片容器 */
+.work-card {
+    display: flex;          /* 关键：左右排布 */
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    border: 1px solid #f0f0f0;
+    height: 220px;          /* 统一高度 */
+}
+
+/* 鼠标悬停：上浮 + 活力橙发光 */
+.work-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(255, 152, 0, 0.2); 
+}
+
+/* 左侧图片区域 */
+.work-image-box {
+    width: 40%;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 图片里的日期标签 */
+.work-date-tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+/* 右侧文字内容区域 */
+.work-text-box {
+    width: 60%;
+    padding: 25px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 文字垂直居中 */
+}
+
+.work-text-box h3 {
+    font-size: 1.4rem;
+    color: var(--primary-color);
+    margin-bottom: 12px;
+}
+
+.work-text-box p {
+    color: var(--text-gray);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    /* 超过两行显示省略号 (可选) */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ================= 手电筒探索板块专用 CSS ================= */
+
+/* 1. 给板块加一个相对定位，确保手电筒和遮罩能在里面绝对定位 */
+.works-explore-section {
+    position: relative;
+    overflow: hidden; /* 防止光斑跑出去 */
+}
+
+/* 2. 手电筒图标和开关的持有者 (固定在右上角) */
+#flashlight-holder {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    z-index: 110; /* 比遮罩层还要高 */
+    transition: transform 0.3s ease;
+}
+
+#light-switch-btn {
+    position: absolute;
+    top: 155px; /* 在手电筒下方 */
+    right: 32px;
+    z-index: 110;
+    padding: 6px 15px;
+    background: #333;
+    color: white;
+    border: 2px solid #555;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+#light-switch-btn:hover {
+    background: #555;
+    border-color: #888;
+}
+
+/* 3. 【核心】黑暗环境遮罩层 */
+#works-dark-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* 默认是透明的，不开灯不显示 */
+    background-color: transparent; 
+    z-index: 100; /* 盖在所有作品卡片上面 */
+    pointer-events: none; /* 默认鼠标点不到它，可以点击下面的卡片 */
+    transition: background-color 0.5s ease; /* 开关灯的平滑过渡 */
+}
+
+/* 4. 当“开灯”状态激活时 (.light-on 类名由 JS 添加) */
+#works-dark-overlay.light-on {
+    /* 环境变暗：近乎全黑的遮罩 */
+    background-color: rgba(0, 0, 0, 0.93);
+    pointer-events: auto; /* 激活鼠标点到它，从而监听移动事件 */
+    
+    /* 核心：挖一个随鼠标移动的圆孔 (手电筒光斑) */
+    /* --light-x 和 --light-y 是 JS 动态更新的坐标 */
+    background-image: radial-gradient(
+        circle 200px at var(--light-x) var(--light-y), /* 光斑大小和位置 */
+        transparent 0%,           /* 内部：完全透明 (挖空) */
+        rgba(0, 0, 0, 0.5) 70%,   /* 过渡：半透明 */
+        rgba(0, 0, 0, 0.93) 100%  /* 外部：环境黑暗 */
+    );
+}
+
+/* 5. 手电筒本身的亮黄色发光特效 */
+.works-explore-section.light-on .flashlight-icon {
+    /* 给 SVG 加上一个亮黄色的外发光 */
+    filter: drop-shadow(0 0 15px #FFD700);
+}
+
+.works-explore-section.light-on #light-switch-btn {
+    background: #FFD700; /* 按钮变黄 */
+    color: #111;
+    border-color: #FFA07A;
+}
+
+/* ================= 背景柔光特效 ================= */
+
+/* 1. 确保作品板块允许绝对定位的装饰物跑来跑去 */
+#works {
+    position: relative;
+    overflow: hidden; /* 关键：防止光晕溢出到别的板块 */
+    background-color: #FFF9E6; /* 你的底色 */
+}
+
+/* 2. 定义光晕的基础属性 */
+.blur-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    filter: blur(120px); /* 极高模糊度，形成晕染效果 */
+    z-index: 0;          /* 确保它们在文字和卡片的后面 */
+    opacity: 0.2;       /* 颜色要浅，若隐若现才高级 */
+    pointer-events: none; /* 绝对不能干扰鼠标点击 */
+    animation: glowMove 15s infinite alternate ease-in-out;
+    mix-blend-mode: multiply;
+}
+
+/* 3. 设置两个光晕的不同颜色和初始位置 */
+.glow-1 {
+    background: #FF9800; /* 活力橙 */
+    top: -150px;
+    left: -150px;
+}
+
+.glow-2 {
+    background: #FFC107; /* 明亮黄 */
+    bottom: -150px;
+    right: -100px;
+    animation-delay: -7s; /* 两个光晕动画错开，更自然 */
+}
+
+/* 4. 定义缓慢漂浮的动画 */
+@keyframes glowMove {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(100px, 50px) scale(1.1); }
+    100% { transform: translate(-50px, 150px) scale(0.9); }
+}
+
+/* 5. 确保内容层在光晕之上 */
+.section-title, .section-subtitle, #works-fruit-container {
+    .section-subtitle {
+    text-align: center; /* 核心代码：让文字居中 */
+    margin: 10px auto;  /* 增加上下间距，并确保块级居中 */
+    display: block;      /* 确保它占据整行宽度 */
+}
+    position: relative;
+    z-index: 1; 
+}
+
+/* 强制消除所有潜在的色块背景 */
+#works, 
+#works-fruit-container, 
+#tree-fruits-container, 
+#works-tree-canvas {
+    background-color: transparent !important;
+    background-image: none !important;
+    border: none !important;
+    box-shadow: none !important; /* 消除可能存在的投影边框 */
+}
+
+/* 确保 Canvas 铺满整个区域，不留白边 */
+#works-tree-canvas {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
