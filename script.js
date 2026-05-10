@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         "观影": {
             desc: "什么都看一点，日常、悬疑、文艺、剧情、动画片、纪录片......几乎都有喜欢的！无论哪种类型，都能聊得来。",
-            images: ["m1.jpg", "m2.jpg", "m3.jpg", "m4.jpg"]
+            images: ["m1.jpg", "m2.jpg", "m3.jpg", "m4.jpg", "m5.jpg", "m6.jpg", "m7.jpg", "m8.jpg", "m9.jpg", "m10.jpg", "m11.jpg", "m12.jpg", "m13.jpg", "m14.jpg", "m15.jpg", "m16.jpg", "m17.jpg"]
         },
         "音乐": {
             desc: "小时候梦想当歌手，长大后成了indie音乐迷。正在探索着自己与音乐相关的身份：乐迷、记录者、志愿者、主办方......我将持续保持对新鲜事物的好奇心，学无止境。",
